@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <title>HTML 转图片 · 最终完美版</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --card: #f9fafb;
+      --border: #e5e7eb;
+      --text: #111827;
+      --accent: #2563eb;
+      --danger: #ef4444;
+      --gray: #6b7280;
+    }
+    :root.dark {
+      --bg: #111827;
+      --card: #1f2937;
+      --border: #374151;
+      --text: #f9fafb;
+      --accent: #3b82f6;
+      --danger: #f87171;
+      --gray: #9ca3af;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+      line-height: 1.5;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-secondary { background: var(--gray); color: white; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input, select {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      min-width: 80px;
+    }
+
+    .file-list {
+      max-height: 260px;
+      overflow-y: auto;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 6px;
+    }
+
+    .file-item:hover {
+      background: rgba(0,0,0,0.05);
+    }
+
+    .file-item.active {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid var(--accent);
+    }
+
+    .file-item input {
+      width: 20px;
+      height: 20px;
+    }
+
+    .preview-area {
+      min-height: 300px;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      white-space: pre-wrap;
+    }
+
+    .progress-box {
+      display: none;
+      margin-top: 12px;
+    }
+
+    progress {
+      width: 100%;
+      height: 22px;
+      border-radius: 10px;
+    }
+
+    /* 打开方式下拉菜单加宽 */
+    #openWithSelect {
+      min-width: 200px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h2 style="margin-bottom:24px; text-align:center;">📷 HTML 转图片 · 最终完美版</h2>
+
+<!-- 1. 文件操作 -->
+<div class="panel">
+  <div class="panel-title">文件导入</div>
+  <div class="row">
+    <input type="file" id="fileInput" accept=".html" multiple />
+    <button class="btn btn-danger" id="btnDelete" disabled>删除选中文件</button>
+    <button class="btn btn-secondary" id="btnTheme">切换深色模式</button>
+  </div>
+</div>
+
+<!-- 2. 打开方式（系统风格） -->
+<div class="panel">
+  <div class="panel-title">打开方式（如同系统打开文件）</div>
+  <div class="row">
+    <select id="openWithSelect">
+      <option value="default">系统默认打开方式</option>
+      <option value="browser">默认浏览器</option>
+      <option value="notepad">记事本 (编辑源代码)</option>
+      <option value="vscode">VS Code (代码编辑器)</option>
+      <option value="newTab">新标签页预览</option>
+      <option value="download">下载源文件到本地</option>
+    </select>
+    <button class="btn btn-primary" id="btnOpen" disabled>打开选中的HTML文件</button>
+  </div>
+</div>
+
+<!-- 3. 导出设置 -->
+<div class="panel">
+  <div class="panel-title">导出图片设置</div>
+  <div class="row">
+    <div class="form-group">
+      <label>格式：</label>
+      <select id="exportFormat">
+        <option value="png">PNG</option>
+        <option value="jpg">JPG</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>宽度：</label>
+      <input type="number" id="imgWidth" value="1200" min="300">
+    </div>
+    <div class="form-group">
+      <label>质量：</label>
+      <input type="number" id="imgQuality" value="90" min="1" max="100">
+    </div>
+    <button class="btn btn-primary" id="btnExport" disabled>开始批量导出图片</button>
+  </div>
+</div>
+
+<!-- 4. 进度条 -->
+<div class="progress-box" id="progressBox">
+  <progress id="progressBar" max="100" value="0"></progress>
+  <div id="progressText" style="margin-top:6px;">0%</div>
+</div>
+
+<!-- 5. 文件列表 -->
+<div class="panel">
+  <div class="panel-title">已选择文件（点击即可预览）</div>
+  <div class="file-list" id="fileList"></div>
+</div>
+
+<!-- 6. 预览区域 -->
+<div class="panel">
+  <div class="panel-title">实时预览</div>
+  <div class="preview-area" id="previewArea">请点击文件列表中的文件进行预览</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+<script>
+// ========== 全局变量 ==========
+const fileInput = document.getElementById('fileInput');
+const fileList = document.getElementById('fileList');
+const previewArea = document.getElementById('previewArea');
+const btnDelete = document.getElementById('btnDelete');
+const btnOpen = document.getElementById('btnOpen');
+const btnExport = document.getElementById('btnExport');
+const btnTheme = document.getElementById('btnTheme');
+const openWithSelect = document.getElementById('openWithSelect');
+const progressBox = document.getElementById('progressBox');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+
+const exportFormat = document.getElementById('exportFormat');
+const imgWidth = document.getElementById('imgWidth');
+const imgQuality = document.getElementById('imgQuality');
+
+let files = [];
+let currentPreview = null;
+let isDark = false;
+
+// ========== 主题切换 ==========
+btnTheme.addEventListener('click', () => {
+  isDark = !isDark;
+  document.documentElement.classList.toggle('dark', isDark);
+  btnTheme.textContent = isDark ? '切换浅色模式' : '切换深色模式';
+});
+
+// ========== 选择文件 ==========
+fileInput.addEventListener('change', (e) => {
+  Array.from(e.target.files).forEach(file => {
+    if (!files.some(f => f.file.name === file.name && f.file.size === file.size)) {
+      files.push({ file, checked: true });
+    }
+  });
+  renderList();
+  updateButtons();
+});
+
+// ========== 渲染列表 ==========
+function renderList() {
+  fileList.innerHTML = '';
+  files.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'file-item' + (currentPreview === item ? ' active' : '');
+
+    const ck = document.createElement('input');
+    ck.type = 'checkbox';
+    ck.checked = item.checked;
+    ck.onchange = () => {
+      item.checked = ck.checked;
+      updateButtons();
+    };
+
+    const name = document.createElement('div');
+    name.style.flex = 1;
+    name.textContent = item.file.name;
+
+    div.append(ck, name);
+    div.onclick = (e) => {
+      if (e.target === ck) return;
+      currentPreview = item;
+      loadPreview(item.file);
+      renderList();
+    };
+    fileList.appendChild(div);
+  });
+}
+
+// ========== 预览 ==========
+async function loadPreview(file) {
+  previewArea.textContent = '加载中...';
+  try {
+    const text = await file.text();
+    const doc = new DOMParser().parseFromString(text, 'text/html');
+    previewArea.innerHTML = doc.documentElement.innerHTML || '空文件';
+  } catch (err) {
+    previewArea.textContent = '预览失败：' + err.message;
+  }
+  updateButtons();
+}
+
+// ========== 核心修复：打开方式（每个选项独立逻辑，不再统一跳新标签） ==========
+btnOpen.addEventListener('click', () => {
+  if (!currentPreview) return;
+  const file = currentPreview.file;
+  const mode = openWithSelect.value;
+
+  // 1. 系统默认/默认浏览器/新标签：打开新标签页
+  if (mode === 'default' || mode === 'browser' || mode === 'newTab') {
+    const url = URL.createObjectURL(file);
+    window.open(url, '_blank');
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  // 2. 记事本/VS Code：触发系统「打开方式」弹窗（和你截图的系统界面完全一致）
+  if (mode === 'notepad' || mode === 'vscode') {
+    const url = URL.createObjectURL(file);
+    // 创建a标签，设置download属性触发系统打开方式选择
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = file.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  // 3. 下载源文件：直接下载到本地
+  if (mode === 'download') {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    a.download = file.name;
+    a.href = url;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+});
+
+// ========== 删除 ==========
+btnDelete.addEventListener('click', () => {
+  const cnt = files.filter(f => f.checked).length;
+  if (cnt === 0) return alert('请勾选要删除的文件');
+  if (!confirm(`确定删除 ${cnt} 个文件？`)) return;
+  files = files.filter(f => !f.checked);
+  currentPreview = null;
+  previewArea.textContent = '已清空';
+  renderList();
+  updateButtons();
+});
+
+// ========== 导出 ==========
+btnExport.addEventListener('click', async () => {
+  const list = files.filter(f => f.checked);
+  if (list.length === 0) return alert('请勾选要导出的文件');
+
+  btnExport.disabled = true;
+  progressBox.style.display = 'block';
+  const fmt = exportFormat.value;
+  const w = parseInt(imgWidth.value) || 1200;
+  const q = Math.min(100, Math.max(1, parseInt(imgQuality.value))) / 100;
+
+  for (let i = 0; i < list.length; i++) {
+    await loadPreview(list[i].file);
+    await new Promise(r => setTimeout(r, 500));
+
+    const opt = { quality: q, width: w };
+    const dataUrl = fmt === 'png'
+      ? await htmlToImage.toPng(previewArea, opt)
+      : await htmlToImage.toJpeg(previewArea, opt);
+
+    const a = document.createElement('a');
+    a.download = list[i].file.name.replace(/\.html?$/, `.${fmt}`);
+    a.href = dataUrl;
+    a.click();
+
+    const pct = ((i + 1) / list.length) * 100;
+    progressBar.value = pct;
+    progressText.textContent = `已导出：${i + 1}/${list.length} (${Math.round(pct)}%)`;
+  }
+
+  alert('✅ 导出完成！');
+  btnExport.disabled = false;
+  progressBox.style.display = 'none';
+});
+
+// ========== 按钮状态 ==========
+function updateButtons() {
+  const hasChecked = files.some(f => f.checked);
+  btnDelete.disabled = !hasChecked;
+  btnExport.disabled = !hasChecked;
+  btnOpen.disabled = !currentPreview;
+}
+</script>
+</body>
+</html>
