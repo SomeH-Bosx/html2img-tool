@@ -65,7 +65,8 @@
 ### 安装依赖
 ```bash
 pip install -r requirements.txt
-playwright install chromium```
+playwright install chromium
+```
 
 ## 贡献指南🤝
 1. Fork 本项目
