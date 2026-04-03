@@ -1,227 +1,106 @@
-# HTML 转图片工具 / HTML to Image Tool
+# 🖼️ HTML 转图片工具 / HTML to Image Tool
 
-## 目录 / Table of Contents
-
-[TOC]
+一款功能完整、开箱即用的 HTML 转高清图片工具，提供本地 Python 客户端与在线网页双版本，支持批量转换、自定义导出、实时预览与深色模式。
 
 ------
 
-## 中文版文档
+## 📋 目录 / Table of Contents
 
-### 项目简介
+* [项目简介]()
 
-这是一个功能强大的 HTML 转图片工具，支持批量导入 HTML 文件、实时预览、多种打开方式选择、自定义导出设置（格式、宽度、质量）以及深色模式，让你轻松将 HTML 内容转换为高清图片。
+- [核心功能](README.md#✨ 核心功能)
+- [在线体验](README.md#🚀 在线体验)
+- [项目截图](README.md#📸 项目截图)
+- [本地运行](README.md#💻 本地运行)
+- [打包为 EXE](README.md#📦 打包为 EXE)
+- [贡献指南](README.md#🤝 贡献指南)
+- [许可证](README.md#📄 许可证)
 
-### 功能特性
+------
 
-- ✅ **多文件导入**：支持单个或多个 HTML 文件导入，也支持整个文件夹批量导入
+## 📖 项目简介
 
-- ✅ **实时预览**：点击文件列表即可预览 HTML 内容
+本项目实现了 HTML 页面一键转图片功能，分为两个版本：
 
-- ✅ **多种打开方式**：支持默认浏览器、新标签页、记事本、VS Code 等多种方式打开源文件
+- **在线网页版**：纯前端 JavaScript 实现，部署于 GitHub Pages，无需安装，浏览器直接使用
+- **本地桌面版**：基于 Python + Tkinter + Playwright，支持批量 HTML 导入、自定义尺寸质量、深色模式
 
-- ✅ 
+工具可自动处理本地图片资源，适合前端开发者、设计师、学生课程设计与日常快速转换使用。
 
-  自定义导出：
+------
 
-  - 格式：PNG / JPG
-  - 宽度：自定义图片宽度
-  - 质量：0-100 可调节
+## ✨ 核心功能
 
-- ✅ **深色模式**：一键切换深色 / 浅色主题
+- 批量导入 HTML 文件 / 文件夹
+- 自定义导出格式：PNG / JPG
+- 自定义图片宽度与质量
+- 实时预览 HTML 内容
+- 深色模式 / 浅色模式切换
+- 多种方式打开源文件（浏览器、VS Code、记事本）
+- 自动将本地图片转为 Base64
+- 在线直接使用，无需环境依赖
 
-- ✅ **批量导出**：支持批量导出选中的 HTML 文件
+------
 
-- ✅ **进度显示**：导出过程实时显示进度条
+## 🚀 在线体验
 
-- ✅ **自动图片处理**：自动将 HTML 中的本地图片转换为 Base64 格式，确保图片正常显示
+直接访问即可使用：
+
+👉 **https://someh-bosx.github.io/html2img-tool/**
+
+------
+
+## 📸 项目截图
+
+![.\assests\screenshot-web.png](D:\Doc_Github\DataAnalysis_Portfolio\Course_Design\HTML\picture\screenshot-web-1775199755721-32.png)
+
+------
+
+## 💻 本地运行
 
 ### 环境要求
 
-- Python 3.7 或更高版本
-- Windows / macOS / Linux
+- Python 3.7 ~ 3.11
+- Windows /macOS/ Linux 全平台支持
 
-### 安装步骤
+### 安装依赖
 
-1. **克隆或下载项目**
+```bash
+pip install -r requirements.txt
+playwright install chromium
+```
 
-   ```
-   git clone <repository-url>
-   cd <project-directory>
-   ```
+### 启动工具
 
-2. **安装依赖**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **安装 Playwright 浏览器内核**
-
-   ```bash
-   playwright install chromium
-   ```
-
-### 使用说明
-
-1. **运行工具**
-
-   ```bash
-   python html2img_python_ultimate.py
-   ```
-
-2. **导入文件**
-
-   - 点击「添加文件」：选择单个或多个 HTML 文件
-   - 点击「添加文件夹」：选择包含 HTML 文件的文件夹，批量导入
-
-3. **预览文件**
-
-   - 在文件列表中点击任意文件，即可在预览区查看 HTML 内容
-
-4. **打开源文件**
-
-   - 在「打开方式」下拉菜单中选择打开方式
-   - 点击「打开选中文件」，即可用选择的方式打开源文件
-
-5. **设置导出参数**
-
-   - 格式：选择 PNG 或 JPG
-   - 宽度：输入图片宽度（默认 1200px）
-   - 质量：输入图片质量（0-100，默认 90）
-
-6. **导出图片**
-
-   - 勾选要导出的文件
-   - 点击「批量导出」
-   - 导出完成后，图片会保存在项目目录下的 `output` 文件夹中
-
-### 常见问题
-
-**Q: 导出的图片在哪里？**
-
-A: 图片统一保存在项目目录下的 `output` 文件夹中，导出完成后会弹窗显示具体路径。
-
-**Q: 本地图片无法显示？**
-
-A: 工具会自动将 HTML 中的本地图片转换为 Base64 格式，确保图片正常显示。
-
-**Q: 如何切换深色模式？**
-
-A: 点击「深色模式」按钮即可一键切换深色 / 浅色主题。
-
-### 许可证
-
-MIT License
+```bash
+python export_html_to_image.py
+```
 
 ------
 
-## English Documentation
+## 📦 打包为 EXE
 
-### Project Introduction
+```bash
+pyinstaller --onefile --windowed --name "HTML转图片工具" --hidden-import=playwright --hidden-import=tkinter export_html_to_image.py
+```
 
-This is a powerful HTML to Image tool that supports batch importing HTML files, real-time preview, multiple opening methods, custom export settings (format, width, quality), and dark mode, making it easy to convert HTML content into high-definition images.
+生成的 `.exe` 文件位于 `dist/` 目录下。
 
-### Features
+------
 
-- ✅ **Multi-file Import**: Support importing single or multiple HTML files, or batch importing an entire folder
+## 🤝 贡献指南
 
-- ✅ **Real-time Preview**: Click on the file list to preview HTML content
+1. Fork 本项目
+2. 创建功能分支：`git checkout -b feature/xxx`
+3. 提交修改：`git commit -m "Add xxx"`
+4. 推送分支：`git push origin feature/xxx`
+5. 提交 Pull Request
 
-- ✅ **Multiple Opening Methods**: Support opening source files with default browser, new tab, Notepad, VS Code, etc.
+------
 
-- ✅ 
+## 📄 许可证
 
-  Custom Export:
+本项目基于 **MIT License** 开源。
 
-  - Format: PNG / JPG
-  - Width: Custom image width
-  - Quality: Adjustable from 0-100
+详情查看：[LICENSE](..\html2img-tool\LICENSE)
 
-  
-
-- ✅ **Dark Mode**: One-click switch between dark/light themes
-
-- ✅ **Batch Export**: Support batch exporting selected HTML files
-
-- ✅ **Progress Display**: Real-time progress bar during export
-
-- ✅ **Automatic Image Processing**: Automatically convert local images in HTML to Base64 format to ensure normal display
-
-### Requirements
-
-- Python 3.7 or higher
-- Windows / macOS / Linux
-
-### Installation Steps
-
-1. **Clone or download the project**
-
-   ```bash
-   git clone <repository-url>
-   cd <project-directory>
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Install Playwright browser kernel**
-
-   ```bash
-   playwright install chromium
-   ```
-
-### Usage Instructions
-
-1. **Run the tool**
-
-   ```bash
-   python html2img_python_ultimate.py
-   ```
-
-2. **Import files**
-
-   - Click "Add Files": Select single or multiple HTML files
-   - Click "Add Folder": Select a folder containing HTML files for batch import
-
-3. **Preview files**
-
-   - Click any file in the file list to view HTML content in the preview area
-
-4. **Open source files**
-
-   - Select the opening method from the "Open With" dropdown menu
-   - Click "Open Selected File" to open the source file with the selected method
-
-5. **Set export parameters**
-
-   - Format: Select PNG or JPG
-   - Width: Enter image width (default 1200px)
-   - Quality: Enter image quality (0-100, default 90)
-
-6. **Export images**
-
-   - Check the files to export
-   - Click "Batch Export"
-   - After export, images will be saved in the `output` folder under the project directory
-
-### FAQ
-
-**Q: Where are the exported images?**
-
-A: Images are uniformly saved in the `output` folder under the project directory, and the specific path will be displayed in a pop-up after export.
-
-**Q: Local images cannot be displayed?**
-
-A: The tool will automatically convert local images in HTML to Base64 format to ensure normal display.
-
-**Q: How to switch dark mode?**
-
-A: Click the "Dark Mode" button to switch between dark/light themes with one click.
-
-### License
-
-MIT License
