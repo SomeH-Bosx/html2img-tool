@@ -52,7 +52,7 @@
 
 ## 📸 项目截图
 
-![.\assests\screenshot-web.png](D:\Doc_Github\DataAnalysis_Portfolio\Course_Design\HTML\picture\screenshot-web-1775199755721-32.png)
+![..\assests\screenshot-web.png](D:\Doc_Github\DataAnalysis_Portfolio\Course_Design\HTML\picture\screenshot-web-1775199755721-32.png)
 
 ------
 
