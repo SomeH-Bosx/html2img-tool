@@ -51,7 +51,7 @@
 
 ## 直接下载EXE
 点击下方链接直接下载 Windows 版本，无需安装 Python：
-[📥 下载 HTML转图片工具.exe](sslocal://flow/file_open?url=https%3A%2F%2Fgithub.com%2FSomeH-Bosx%2Fhtml2img-tool%2Fraw%2Fmain%2Fdist%2FHTML%25E8%25BD%25AC%25E5%259B%25BE%25E7%2589%2587%25E5%25B7%25A5%25E5%2585%25B7.exe&flow_extra=eyJsaW5rX3R5cGUiOiJjb2RlX2ludGVycHJldGVyIn0=)
+[📥 下载 HTML转图片工具.exe](https://github.com/SomeH-Bosx/html2img-tool/raw/refs/heads/main/dist/HTML%E8%BD%AC%E5%9B%BE%E7%89%87%E5%B7%A5%E5%85%B7.exe)
 
 ---
 
