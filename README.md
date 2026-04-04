@@ -53,7 +53,6 @@
 ### 本地桌面版界面
 ![桌面版界面](assets/screenshot-desktop.png)
 
-> 请将截图文件放入项目根目录下的 `assets/` 文件夹，即可正常显示。
 
 ---
 
