@@ -13,7 +13,7 @@
 - [在线体验](#在线体验)
 - [项目截图](#项目截图)
 - [本地运行](#本地运行)
-- [直接下载EXE（免安装）](#直接下载EXE（免安装）)
+- [直接下载EXE（免安装）](#直接下载 EXE（免安装）)
 - [安装依赖](#安装依赖)
 - [贡献指南](#贡献指南)
 - [许可证](#许可证)
@@ -49,9 +49,12 @@
 
 
 
-## 直接下载EXE（免安装）📥  
-点击下方按钮即可下载 Windows 版本，双击运行，无需安装 Python：
-[![下载 EXE](D:\Doc_Github\DataAnalysis_Portfolio\Course_Design\HTML\picture\📥 下载 EXE-立即下载-blue.svg+xml)](https://github.com/SomeH-Bosx/html2img-tool/raw/main/dist/HTML%E8%BD%AC%E5%9B%BE%E5%B7%A5%E5%85%B7%E5%85%B7.exe)
+## 直接下载 EXE（免安装）
+点击下方链接直接下载 Windows 版本，无需安装 Python：
+
+[📥 下载 HTML转图片工具.exe](sslocal://flow/file_open?url=https%3A%2F%2Fgithub.com%2FSomeH-Bosx%2Fhtml2img-tool%2Fraw%2Fmain%2Fdist%2FHTML%25E8%25BD%25AC%25E5%259B%25BE%25E5%25B7%25A5%25E5%2585%25B7%25E5%2585%25B7.exe&flow_extra=eyJsaW5rX3R5cGUiOiJjb2RlX2ludGVycHJldGVyIn0=)
+
+---
 
 ## 项目截图📸 
 ### 在线网页版界面
